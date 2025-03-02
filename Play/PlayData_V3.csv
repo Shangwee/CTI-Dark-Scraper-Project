@@ -1,4 +1,4 @@
-Company_Name,Sector,Industry_Group,Country_of_Origin,Type_of_Data_Stolen,Date,Data_Volume,Visits
+Company_Name,Sector,Industry_Group,Country_of_Origin,Type_of_Data_Stolen,Date,Data_Volume_GB,Visits
 Bettisworth North,Real Estate,Real Estate Management & Development,United States,Personal Identifiable Information,30/12/2024,174,12057
 Bettisworth North,Real Estate,Real Estate Management & Development,United States,Financial & Payment Data,30/12/2024,174,12057
 Bettisworth North,Real Estate,Real Estate Management & Development,United States,Corporate & Business Data,30/12/2024,174,12057

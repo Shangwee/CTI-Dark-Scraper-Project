@@ -1,4 +1,4 @@
-Company_Name,Sector,Industry_Group,Country_of_Origin,Type_of_Data_Stolen,Date,Data_Volume,Visits
+Company_Name,Sector,Industry_Group,Country_of_Origin,Type_of_Data_Stolen,Date,Data_Volume_GB,Visits
 Bettisworth North,Real Estate,Real Estate Management & Development,United States,"Personal Identifiable Information, Financial & Payment Data, Corporate & Business Data",30/12/2024,174,12057
 Luxury Yacht Group,Consumer Discretionary,Recreational Products,United States,"Personal Identifiable Information, Financial & Payment Data, Corporate & Business Data",30/12/2024,310,12056
 Zeifmans,Financials,Financial Services,Canada,"Personal Identifiable Information, Financial & Payment Data, Corporate & Business Data, Authentication & Credential Data",30/12/2024,339,11939
