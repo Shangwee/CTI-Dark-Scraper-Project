@@ -100,12 +100,22 @@ def get_stolen_data_type(data_description):
         print(f"An error occurred when calling the API: {e}")
         return None
     
+def clean_data_size(data_size):
+    try:
+        if "GB" in data_size:
+            return data_size.replace("GB", "").strip()
+    except Exception as e:
+        print(f"An error occurred when cleaning data size: {e}")
+        return data_size
+    
 def get_cleaned_data():
 
     # Read the CSV file
     file_path = "PlayData_V0.csv"
     # Read CSV with proper parsing
     df = pd.read_csv(file_path)
+    total_rows = len(df)  # Get total row count
+    progress_count = 0  # Initialize progress counter
 
     # Extract relevant columns safely
     for _, row in df.iterrows():
@@ -116,6 +126,10 @@ def get_cleaned_data():
         date = row["Added Date"]
         data_size = row["Data Size"]
         data_info = row["Data Information"]
+
+        # Clean the data size
+        data_size = clean_data_size(data_size)
+        print(f"Data size: {data_size}")
 
         # Get the sector of the company
         time.sleep(15) # Sleep for 15 seconds to avoid rate limiting
@@ -133,7 +147,9 @@ def get_cleaned_data():
         CLEAN_DATA_LIST.append([company_name, clean_sector, clean_industry_group, country, stolen_data_type, date, data_size, visits])
         print(f"Appended data for {company_name}")
 
-        break # For testing purposes
+         # Update progress counter
+        progress_count += 1
+        print(f"Processed {progress_count}/{total_rows} rows ({(progress_count / total_rows) * 100:.2f}% complete)")
 
 # Write the cleaned data to a new CSV file
 def insert_data():
@@ -154,4 +170,3 @@ if __name__ == "__main__":
     get_cleaned_data()
     insert_data()
     print("Data cleaning and insertion completed!")
-
