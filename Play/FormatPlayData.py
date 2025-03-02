@@ -3,6 +3,7 @@
 import csv
 import google.generativeai as genai
 import os
+import re
 from dotenv import load_dotenv
 import time
 import json
@@ -40,9 +41,13 @@ def get_sector_of_company(company_name, company_details):
         
         result = response.candidates[0].content.parts[0].text
 
+        # Clean the text of any markdown or extra formatting
+        clean_text = re.sub(r'```json\s*|\s*```$', '', result)
+        clean_text = clean_text.strip()
+
         try:
             # Parse the cleaned JSON
-            sectors_json = json.loads(result)
+            sectors_json = json.loads(clean_text)
             
             clean_sector = sectors_json.get("GICS Sector", None)
             clean_industry_group = sectors_json.get("GICS Industry Group", None)
@@ -50,7 +55,9 @@ def get_sector_of_company(company_name, company_details):
             return clean_sector, clean_industry_group
         except json.JSONDecodeError as e:
             print(f"Failed to parse JSON: {e}")
-            return None, None
+            # retry
+            time.sleep(5)
+            return get_sector_of_company(company_name, company_details)
 
     except Exception as e:
         print(f"An error occurred when calling the API: {e}")
@@ -120,13 +127,13 @@ def get_cleaned_data():
         data_info = row["Data Information"]
 
         # Get the sector of the company
-        time.sleep(15) # Sleep for 15 seconds to avoid rate limiting
+        time.sleep(5) # Sleep for 5 seconds to avoid rate limiting
         clean_sector, clean_industry_group  = get_sector_of_company(company_name, company_details)
 
         print(f"clean_sector: {clean_sector}, clean_industry_group: {clean_industry_group}")
 
         # Get the type of stolen data
-        time.sleep(15) # Sleep for 15 seconds to avoid rate limiting
+        time.sleep(5) # Sleep for 5 seconds to avoid rate limiting
         stolen_data_type = get_stolen_data_type(data_info)
 
         print(f"stolen_data_type: {stolen_data_type}")
@@ -141,7 +148,7 @@ def get_cleaned_data():
 
 # Write the cleaned data to a new CSV file
 def insert_data():
-    with open('PlavData_V1.csv', mode='w', newline='') as csvfile:
+    with open('PlayData_V1.csv', mode='w', newline='', encoding='utf-8') as csvfile:  # Ensure UTF-8 encoding
         csvwriter = csv.writer(csvfile)
 
         # Write the header
